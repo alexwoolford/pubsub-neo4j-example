@@ -5,7 +5,6 @@ Generates realistic clinical data with meaningful relationships for the graph.
 """
 
 import json
-import uuid
 import random
 from datetime import datetime, timedelta
 from typing import List, Dict
@@ -247,7 +246,7 @@ class HealthcareDataGenerator:
                                  medications=800, 
                                  procedures=400) -> List[Dict]:
         """Generate a complete connected healthcare dataset"""
-        print(f"Generating healthcare dataset:")
+        print("Generating healthcare dataset:")
         print(f"  - {len(self.hospitals)} Hospitals")
         print(f"  - {doctors} Doctors")
         print(f"  - {patients} Patients") 
@@ -285,5 +284,5 @@ if __name__ == "__main__":
     with open('sample_healthcare_data.json', 'w') as f:
         json.dump(dataset[:10], f, indent=2)
     
-    print(f"\nSample data saved to sample_healthcare_data.json")
-    print(f"First record: {dataset[0]}") 
+    print("\nSample data saved to sample_healthcare_data.json")
+    print(f"First record: {dataset[0]}")

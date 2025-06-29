@@ -8,7 +8,6 @@ import json
 import time
 import argparse
 import threading
-from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from google.cloud import pubsub_v1
 import structlog
@@ -110,7 +109,7 @@ def publish_message_batch(publisher, topic_path, messages, batch_id, metrics):
         # Wait for all messages in batch to complete
         for future, message_size in futures:
             try:
-                message_id = future.result(timeout=10)  # 10 second timeout per message
+                future.result(timeout=10)  # 10 second timeout per message
                 metrics.record_success(message_size)
                 batch_success += 1
                 
@@ -144,8 +143,8 @@ def publish_healthcare_data_high_performance(project_id, topic_name,
                                            batch_size=50, max_workers=10):
     """Publish healthcare data with high performance and throughput measurement"""
     
-    print(f"\n🏥 HEALTHCARE DATA PUBLISHER")
-    print(f"{'='*60}")
+    print("\n🏥 HEALTHCARE DATA PUBLISHER")
+    print("=" * 60)
     print(f"Target: {project_id}/{topic_name}")
     print(f"Dataset: {doctors} doctors, {patients} patients")
     print(f"Clinical data: {diagnoses} diagnoses, {medications} medications, {procedures} procedures")
@@ -159,7 +158,7 @@ def publish_healthcare_data_high_performance(project_id, topic_name,
     metrics = HealthcarePublisherMetrics()
     
     # Generate the complete healthcare dataset
-    print(f"\n📊 Generating healthcare dataset...")
+    print("\n📊 Generating healthcare dataset...")
     dataset_start = time.time()
     
     healthcare_data = generator.generate_complete_dataset(
@@ -179,7 +178,7 @@ def publish_healthcare_data_high_performance(project_id, topic_name,
               for i in range(0, len(healthcare_data), batch_size)]
     
     print(f"\n🚀 Publishing {len(healthcare_data)} messages in {len(batches)} batches...")
-    print(f"⏱️  Starting high-performance publishing...")
+    print("⏱️  Starting high-performance publishing...")
     
     metrics.start_publishing()
     
@@ -220,9 +219,9 @@ def publish_healthcare_data_high_performance(project_id, topic_name,
     # Final statistics
     final_stats = metrics.get_stats()
     
-    print(f"\n🎉 HIGH-PERFORMANCE PUBLISHING COMPLETED!")
-    print(f"{'='*60}")
-    print(f"📊 FINAL STATISTICS:")
+    print("\n🎉 HIGH-PERFORMANCE PUBLISHING COMPLETED!")
+    print("=" * 60)
+    print("📊 FINAL STATISTICS:")
     print(f"  Duration: {final_stats['duration_seconds']} seconds")
     print(f"  Total Messages: {final_stats['total_messages']}")
     print(f"  Successfully Sent: {final_stats['messages_sent']}")
@@ -234,24 +233,17 @@ def publish_healthcare_data_high_performance(project_id, topic_name,
     print(f"  Avg Batch Time: {final_stats['avg_batch_time_ms']} ms")
     print(f"{'='*60}")
     
-    # Performance assessment
+    # Overall throughput summary
     throughput = final_stats['throughput_msg_per_sec']
-    if throughput >= 1000:
-        print(f"🚀 EXCELLENT: {throughput:.0f} msg/sec - Ready for production scale!")
-    elif throughput >= 500:
-        print(f"✅ GOOD: {throughput:.0f} msg/sec - Suitable for most use cases")
-    elif throughput >= 100:
-        print(f"⚠️  MODERATE: {throughput:.0f} msg/sec - Consider optimization for high volume")
-    else:
-        print(f"❌ LOW: {throughput:.0f} msg/sec - Performance optimization needed")
+    print(f"Final throughput: {throughput:.0f} msg/sec")
     
     return final_stats
 
 
 def run_throughput_test(project_id, topic_name, test_sizes):
     """Run throughput tests with different dataset sizes"""
-    print(f"\n🔬 THROUGHPUT BOUNDARY TESTING")
-    print(f"{'='*60}")
+    print("\n🔬 THROUGHPUT BOUNDARY TESTING")
+    print("=" * 60)
     
     results = []
     
@@ -273,15 +265,14 @@ def run_throughput_test(project_id, topic_name, test_sizes):
         time.sleep(2)
     
     # Summary report
-    print(f"\n📋 THROUGHPUT TEST SUMMARY")
-    print(f"{'='*60}")
+    print("\n📋 THROUGHPUT TEST SUMMARY")
+    print("=" * 60)
     print(f"{'Test Name':<20} {'Messages':<10} {'Duration(s)':<12} {'Throughput':<15} {'Success Rate'}")
     print(f"{'-'*60}")
     
     for result in results:
         stats = result['stats']
         config = result['config']
-        total_messages = sum(config.values())
         
         print(f"{result['test_name']:<20} "
               f"{stats['messages_sent']:<10} "
@@ -297,8 +288,8 @@ def main():
     parser = argparse.ArgumentParser(description='High-Performance Healthcare Data Publisher')
     parser.add_argument('--project-id', required=True, help='Google Cloud Project ID')
     parser.add_argument('--topic', default='neo4j-topic', help='Pub/Sub topic name')
-    parser.add_argument('--mode', choices=['small', 'medium', 'large', 'massive', 'test-suite'], 
-                       default='medium', help='Publishing mode')
+    parser.add_argument('--mode', choices=['small', 'medium', 'large', 'xlarge', 'test-suite'],
+                       default='medium', help='Publishing mode (demo sizes)')
     parser.add_argument('--batch-size', type=int, default=50, help='Messages per batch')
     parser.add_argument('--max-workers', type=int, default=10, help='Concurrent workers')
     
@@ -317,7 +308,7 @@ def main():
             "Small (1K)": {"doctors": 20, "patients": 100, "diagnoses": 200, "medications": 300, "procedures": 150},
             "Medium (3K)": {"doctors": 50, "patients": 300, "diagnoses": 600, "medications": 800, "procedures": 400},
             "Large (10K)": {"doctors": 100, "patients": 1000, "diagnoses": 2000, "medications": 3000, "procedures": 1500},
-            "Massive (50K)": {"doctors": 500, "patients": 5000, "diagnoses": 10000, "medications": 15000, "procedures": 7500}
+            "Extra Large (50K)": {"doctors": 500, "patients": 5000, "diagnoses": 10000, "medications": 15000, "procedures": 7500}
         }
         
         run_throughput_test(args.project_id, args.topic, test_configs)
@@ -341,7 +332,7 @@ def main():
                 "small": {"doctors": 20, "patients": 100, "diagnoses": 200, "medications": 300, "procedures": 150},
                 "medium": {"doctors": 50, "patients": 300, "diagnoses": 600, "medications": 800, "procedures": 400},
                 "large": {"doctors": 100, "patients": 1000, "diagnoses": 2000, "medications": 3000, "procedures": 1500},
-                "massive": {"doctors": 500, "patients": 5000, "diagnoses": 10000, "medications": 15000, "procedures": 7500}
+                "xlarge": {"doctors": 500, "patients": 5000, "diagnoses": 10000, "medications": 15000, "procedures": 7500}
             }
             
             config = configs[args.mode].copy()
@@ -358,4 +349,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main() 
+    main()

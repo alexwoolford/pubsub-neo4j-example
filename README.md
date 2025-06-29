@@ -7,7 +7,7 @@ This example demonstrates real-time ingestion of connected healthcare data (pati
 ## 🎯 **Key Features**
 
 - **Healthcare Domain Models**: Realistic clinical data with ICD-10 codes, CPT codes, and medical relationships
-- **High-Performance Streaming**: Up to 2,360+ messages/second throughput with real-time processing
+- **High throughput streaming**: tested at 2,360 messages/second
 - **Graph Relationships**: Creates meaningful clinical relationships automatically  
 - **Production Architecture**: Cloud Run + Pub/Sub + Neo4j with auto-scaling
 - **Performance Monitoring**: Real-time metrics and scaling recommendations
@@ -85,12 +85,14 @@ curl http://localhost:8080/graph-sample     # Sample relationships
 
 ## 📈 **Performance Results**
 
-| Dataset Size | Messages | Throughput | Assessment | Use Case |
-|--------------|----------|------------|------------|----------|
-| Small        | 775      | 441 msg/sec | MODERATE | Regional clinic daily volume |
-| Medium       | 2,155    | 897 msg/sec | GOOD | Hospital system daily volume |
-| Large        | 7,605    | 1,386 msg/sec | EXCELLENT | Major medical center daily volume |
-| Massive      | 38,005   | 2,360 msg/sec | EXCELLENT | Enterprise healthcare network |
+| Dataset Size | Messages | Throughput | Use Case |
+|--------------|----------|------------|----------|
+| Small        | 775      | 441 msg/sec | Regional clinic daily volume |
+| Medium       | 2,155    | 897 msg/sec | Hospital system daily volume |
+| Large        | 7,605    | 1,386 msg/sec | Major medical center daily volume |
+| Extra Large  | 38,005   | 2,360 msg/sec | Enterprise demo volume |
+
+*These dataset sizes are for quick demonstrations and are much smaller than typical production workloads.*
 
 *Performance scales significantly with dataset size. All tests show 100% success rate with automatic relationship creation.*
 
@@ -212,4 +214,4 @@ For questions or deployment assistance, refer to:
 
 ---
 
-**🏥 Demonstrating scalable graph-based healthcare data processing with real-time streaming** 
+**🏥 Demonstrating scalable graph-based healthcare data processing with real-time streaming**

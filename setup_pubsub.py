@@ -4,7 +4,6 @@ Script to set up Google Cloud Pub/Sub infrastructure for the Neo4j example.
 This script creates the topic and subscription needed for the application.
 """
 
-import os
 import argparse
 from google.cloud import pubsub_v1
 from google.api_core import exceptions
@@ -131,4 +130,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main() 
+    main()

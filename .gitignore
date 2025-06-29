@@ -67,4 +67,4 @@ service-account-key.json
 
 # Backup files
 *.bak
-*.backup 
+*.backup
