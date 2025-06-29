@@ -66,17 +66,27 @@ cp env.example .env
 # Edit .env with your Neo4j and Google Cloud credentials
 ```
 
-### 2. **Run Complete Demo**
+### 2. **Setup Google Cloud Pub/Sub**
 ```bash
-# Automated demo with infrastructure provisioning and cleanup
+# REQUIRED: Create Pub/Sub topic and subscription (for manual setup)
+python setup_pubsub.py --project-id your-project-id --pull-only
+
+# Or use gcloud directly
+gcloud pubsub topics create neo4j-topic --project your-project-id
+gcloud pubsub subscriptions create neo4j-subscription --topic neo4j-topic --project your-project-id
+```
+
+### 3. **Run Complete Demo**
+```bash
+# Option A: Automated demo (handles all infrastructure setup automatically)
 python demo_automation.py --project-id your-project-id --demo-type local
 
-# Or manual demo
+# Option B: Manual demo (requires Pub/Sub setup from step 2)
 python healthcare_app.py                    # Start processor
 python healthcare_publisher.py --project-id your-project --mode medium
 ```
 
-### 3. **Monitor Performance**
+### 4. **Monitor Performance**
 ```bash
 curl http://localhost:8080/health           # Health and performance metrics
 curl http://localhost:8080/stats            # Detailed statistics
@@ -174,6 +184,7 @@ healthcare-streaming-demo/
 ├── healthcare_data_generator.py   # Clinical data generator
 ├── healthcare_publisher.py        # High-performance publisher
 ├── demo_automation.py             # Complete automation script
+├── setup_pubsub.py                # Pub/Sub infrastructure setup
 ├── requirements.txt               # Dependencies
 ├── Dockerfile                     # Container configuration
 └── README.md                      # This file
