@@ -85,12 +85,12 @@ curl http://localhost:8080/graph-sample     # Sample relationships
 
 ## 📈 **Performance Results**
 
-| Dataset Size | Messages | Throughput | Assessment | Use Case |
-|--------------|----------|------------|------------|----------|
-| Small        | 775      | 441 msg/sec | MODERATE | Regional clinic daily volume |
-| Medium       | 2,155    | 897 msg/sec | GOOD | Hospital system daily volume |
-| Large        | 7,605    | 1,386 msg/sec | EXCELLENT | Major medical center daily volume |
-| Massive      | 38,005   | 2,360 msg/sec | EXCELLENT | Enterprise healthcare network |
+| Dataset Size | Messages | Throughput | Use Case |
+|--------------|----------|------------|----------|
+| Small        | 775      | 441 msg/sec | Regional clinic daily volume |
+| Medium       | 2,155    | 897 msg/sec | Hospital system daily volume |
+| Large        | 7,605    | 1,386 msg/sec | Major medical center daily volume |
+| Massive      | 38,005   | 2,360 msg/sec | Enterprise healthcare network |
 
 *Performance scales significantly with dataset size. All tests show 100% success rate with automatic relationship creation.*
 

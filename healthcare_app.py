@@ -133,14 +133,8 @@ def health_check():
                              max(performance_stats["messages_processed"], 1))
         throughput = performance_stats["messages_processed"] / max(uptime, 1)
         
-        # Performance assessment
-        performance_level = "EXCELLENT" if throughput >= 1000 else \
-                          "GOOD" if throughput >= 500 else \
-                          "ACCEPTABLE" if throughput >= 100 else \
-                          "POOR" if throughput >= 50 else "CRITICAL"
-        
         return jsonify({
-            "status": "healthy", 
+            "status": "healthy",
             "service": "healthcare-processor",
             "performance": {
                 "uptime_seconds": round(uptime, 2),
@@ -149,9 +143,8 @@ def health_check():
                 "relationships_created": performance_stats["relationships_created"],
                 "avg_processing_time_ms": round(avg_processing_time * 1000, 2),
                 "throughput_msg_per_sec": round(throughput, 2),
-                "throughput_level": performance_level,
                 "success_rate": round(
-                    (performance_stats["messages_processed"] / 
+                    (performance_stats["messages_processed"] /
                      max(performance_stats["messages_processed"] + performance_stats["messages_failed"], 1)) * 100, 2
                 ),
                 "scaling_recommendation": get_scaling_recommendation(throughput, avg_processing_time * 1000)
@@ -333,18 +326,10 @@ def real_time_metrics():
         return jsonify({
             "timestamp": datetime.utcnow().isoformat(),
             "throughput": {
-                "current_msg_per_sec": round(current_throughput, 2),
-                "assessment": "EXCELLENT" if current_throughput >= 1000 else
-                            "GOOD" if current_throughput >= 500 else
-                            "ACCEPTABLE" if current_throughput >= 100 else
-                            "POOR" if current_throughput >= 50 else "CRITICAL"
+                "current_msg_per_sec": round(current_throughput, 2)
             },
             "processing": {
-                "avg_time_ms": round(avg_processing_time, 2),
-                "assessment": "EXCELLENT" if avg_processing_time <= 10 else
-                            "GOOD" if avg_processing_time <= 50 else
-                            "ACCEPTABLE" if avg_processing_time <= 200 else
-                            "POOR" if avg_processing_time <= 500 else "CRITICAL"
+                "avg_time_ms": round(avg_processing_time, 2)
             },
             "volume": {
                 "messages_processed": performance_stats["messages_processed"],
@@ -415,11 +400,11 @@ def boundary_analysis():
                 "primary_bottleneck": bottlenecks[0] if bottlenecks else "NO_BOTTLENECK_DETECTED"
             },
             "architecture_recommendations": {
-                "current_suitability": "GOOD" if current_throughput >= 100 else "NEEDS_OPTIMIZATION",
+                "meets_minimum_throughput": current_throughput >= 100,
                 "scale_to_dataflow_when": "Processing >50K messages/batch OR throughput <50 msg/sec",
                 "optimization_options": [
                     "Increase Cloud Run concurrency",
-                    "Optimize Neo4j batch writes", 
+                    "Optimize Neo4j batch writes",
                     "Use multiple processor instances",
                     "Implement message batching"
                 ]

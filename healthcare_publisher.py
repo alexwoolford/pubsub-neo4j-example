@@ -234,16 +234,9 @@ def publish_healthcare_data_high_performance(project_id, topic_name,
     print(f"  Avg Batch Time: {final_stats['avg_batch_time_ms']} ms")
     print(f"{'='*60}")
     
-    # Performance assessment
+    # Report measured throughput without qualitative labels
     throughput = final_stats['throughput_msg_per_sec']
-    if throughput >= 1000:
-        print(f"🚀 EXCELLENT: {throughput:.0f} msg/sec - Ready for production scale!")
-    elif throughput >= 500:
-        print(f"✅ GOOD: {throughput:.0f} msg/sec - Suitable for most use cases")
-    elif throughput >= 100:
-        print(f"⚠️  MODERATE: {throughput:.0f} msg/sec - Consider optimization for high volume")
-    else:
-        print(f"❌ LOW: {throughput:.0f} msg/sec - Performance optimization needed")
+    print(f"Measured throughput: {throughput:.0f} msg/sec")
     
     return final_stats
 
