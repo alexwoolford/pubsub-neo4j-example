@@ -457,4 +457,4 @@ if __name__ == '__main__':
         print("📊 High-performance healthcare data processor ready!")
     
     logger.info("Starting Healthcare Processor", port=port)
-    app.run(host='0.0.0.0', port=port, debug=False) 
+    app.run(host='0.0.0.0', port=port, debug=False)

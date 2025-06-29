@@ -41,7 +41,6 @@ class HealthcareNeo4jService:
         try:
             message_type = message_data.get('type', 'unknown').lower()
             entity_id = message_data.get('id', str(uuid.uuid4()))
-            timestamp = datetime.utcnow().isoformat()
             
             logger.info("Processing healthcare message", 
                        entity_type=message_type, 
@@ -83,8 +82,8 @@ class HealthcareNeo4jService:
         RETURN h.id as entity_id
         """
         
-        result = tx.run(query,
-                       id=data['id'],
+        tx.run(query,
+               id=data['id'],
                        name=data.get('name', ''),
                        location=data.get('location', ''),
                        hospital_type=data.get('hospital_type', ''),
@@ -108,8 +107,8 @@ class HealthcareNeo4jService:
         RETURN d.id as entity_id
         """
         
-        result = tx.run(query,
-                       id=data['id'],
+        tx.run(query,
+               id=data['id'],
                        name=data.get('name', ''),
                        specialty=data.get('specialty', ''),
                        license_number=data.get('license_number', ''),
@@ -146,8 +145,8 @@ class HealthcareNeo4jService:
         RETURN p.id as entity_id
         """
         
-        result = tx.run(query,
-                       id=data['id'],
+        tx.run(query,
+               id=data['id'],
                        name=data.get('name', ''),
                        mrn=data.get('mrn', ''),
                        date_of_birth=data.get('date_of_birth', ''),
@@ -187,8 +186,8 @@ class HealthcareNeo4jService:
         RETURN diag.id as entity_id
         """
         
-        result = tx.run(query,
-                       id=data['id'],
+        tx.run(query,
+               id=data['id'],
                        icd10_code=data.get('icd10_code', ''),
                        description=data.get('description', ''),
                        severity=data.get('severity', ''),
@@ -240,8 +239,8 @@ class HealthcareNeo4jService:
         RETURN med.id as entity_id
         """
         
-        result = tx.run(query,
-                       id=data['id'],
+        tx.run(query,
+               id=data['id'],
                        medication_name=data.get('medication_name', ''),
                        dosage=data.get('dosage', ''),
                        frequency=data.get('frequency', ''),
@@ -301,8 +300,8 @@ class HealthcareNeo4jService:
         RETURN proc.id as entity_id
         """
         
-        result = tx.run(query,
-                       id=data['id'],
+        tx.run(query,
+               id=data['id'],
                        cpt_code=data.get('cpt_code', ''),
                        procedure_name=data.get('procedure_name', ''),
                        procedure_type=data.get('procedure_type', ''),
@@ -373,7 +372,7 @@ class HealthcareNeo4jService:
         RETURN e.id as entity_id
         """
         
-        result = tx.run(query, properties=properties)
+        tx.run(query, properties=properties)
         return {"entity_id": data.get('id', str(uuid.uuid4())), "type": entity_type, "relationships_created": 0}
     
     def get_healthcare_statistics(self):
@@ -391,7 +390,7 @@ class HealthcareNeo4jService:
                 node_result = session.run(node_query)
                 node_stats = [{"entity_type": record["label"], "count": record["count"]} 
                              for record in node_result]
-            except:
+            except Exception:
                 # Fallback if APOC not available
                 basic_query = """
                 MATCH (n)
@@ -449,4 +448,4 @@ class HealthcareNeo4jService:
                     "relationship": r["relationship"],
                     "connected_type": r["connected_type"],
                     "connected_id": r["connected_id"],
-                    "connected_name": r["connected_name"]} for r in result] 
+                    "connected_name": r["connected_name"]} for r in result]

@@ -6,12 +6,7 @@ Complete infrastructure provisioning, demo execution, and cleanup
 
 import subprocess
 import time
-import os
-import json
 import argparse
-import signal
-import sys
-from datetime import datetime
 
 class HealthcareDemo:
     """Complete demo automation with infrastructure management"""
@@ -192,7 +187,7 @@ class HealthcareDemo:
             ], check=True, capture_output=True)
             print(f"    ✅ Created push subscription to: {webhook_url}")
         except subprocess.CalledProcessError:
-            print(f"    ⚠️ Push subscription already exists")
+            print("    ⚠️ Push subscription already exists")
     
     def _get_cloud_run_url(self):
         """Get Cloud Run service URL"""
@@ -318,8 +313,8 @@ class HealthcareDemo:
     
     def _offer_cleanup(self):
         """Offer to clean up resources"""
-        print(f"\n🧹 CLEANUP OPTIONS:")
-        print(f"  The following resources were created/used:")
+        print("\n🧹 CLEANUP OPTIONS:")
+        print("  The following resources were created/used:")
         
         if self.created_resources["cloud_run_service"]:
             print(f"    • Cloud Run service: {self.service_name}")
@@ -330,9 +325,9 @@ class HealthcareDemo:
         if self.created_resources["container_image"]:
             print(f"    • Container image: gcr.io/{self.project_id}/{self.service_name}")
         
-        print(f"    • Neo4j Aura: (external service, not managed)")
+        print("    • Neo4j Aura: (external service, not managed)")
         
-        cleanup = input(f"\nDelete created resources? (y/N): ").lower().strip()
+        cleanup = input("\nDelete created resources? (y/N): ").lower().strip()
         
         if cleanup == 'y':
             self._cleanup_resources()
@@ -359,8 +354,8 @@ class HealthcareDemo:
                     "--project", self.project_id
                 ], check=True, capture_output=True)
                 print(f"  ✅ Deleted Cloud Run service: {self.service_name}")
-            except:
-                print(f"  ⚠️ Failed to delete Cloud Run service")
+            except Exception:
+                print("  ⚠️ Failed to delete Cloud Run service")
         
         # Delete Pub/Sub resources
         if self.created_resources["pubsub_subscription"]:
@@ -371,8 +366,8 @@ class HealthcareDemo:
                     "--project", self.project_id
                 ], check=True, capture_output=True)
                 print(f"  ✅ Deleted subscription: {self.subscription_name}")
-            except:
-                print(f"  ⚠️ Failed to delete subscription")
+            except Exception:
+                print("  ⚠️ Failed to delete subscription")
         
         if self.created_resources["pubsub_topic"]:
             try:
@@ -382,23 +377,23 @@ class HealthcareDemo:
                     "--project", self.project_id
                 ], check=True, capture_output=True)
                 print(f"  ✅ Deleted topic: {self.topic_name}")
-            except:
-                print(f"  ⚠️ Failed to delete topic")
+            except Exception:
+                print("  ⚠️ Failed to delete topic")
         
         print("  💰 Estimated monthly savings: ~$15-25")
         print("  ✅ Cleanup complete!")
     
     def _show_cleanup_commands(self):
         """Show manual cleanup commands"""
-        print(f"\n📋 MANUAL CLEANUP COMMANDS:")
-        print(f"# Delete Cloud Run service:")
+        print("\n📋 MANUAL CLEANUP COMMANDS:")
+        print("# Delete Cloud Run service:")
         print(f"gcloud run services delete {self.service_name} --region {self.region}")
-        print(f"")
-        print(f"# Delete Pub/Sub resources:")
+        print("")
+        print("# Delete Pub/Sub resources:")
         print(f"gcloud pubsub subscriptions delete {self.subscription_name}")
         print(f"gcloud pubsub topics delete {self.topic_name}")
-        print(f"")
-        print(f"# Delete container images:")
+        print("")
+        print("# Delete container images:")
         print(f"gcloud container images delete gcr.io/{self.project_id}/{self.service_name}")
 
 
@@ -422,4 +417,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main() 
+    main()
