@@ -7,7 +7,7 @@ This example demonstrates real-time ingestion of connected healthcare data (pati
 ## 🎯 **Key Features**
 
 - **Healthcare Domain Models**: Realistic clinical data with ICD-10 codes, CPT codes, and medical relationships
-- **High throughput streaming**: tested at 2,360 messages/second
+- **High throughput streaming**: tested at 3,188 messages/second
 - **Graph Relationships**: Creates meaningful clinical relationships automatically  
 - **Production Architecture**: Cloud Run + Pub/Sub + Neo4j with auto-scaling
 - **Performance Monitoring**: Real-time metrics and scaling recommendations
@@ -87,10 +87,10 @@ curl http://localhost:8080/graph-sample     # Sample relationships
 
 | Dataset Size | Messages | Throughput | Use Case |
 |--------------|----------|------------|----------|
-| Small        | 775      | 441 msg/sec | Regional clinic daily volume |
-| Medium       | 2,155    | 897 msg/sec | Hospital system daily volume |
-| Large        | 7,605    | 1,386 msg/sec | Major medical center daily volume |
-| Extra Large  | 38,005   | 2,360 msg/sec | Enterprise demo volume |
+| Small        | 775      | 495 msg/sec | Regional clinic daily volume |
+| Medium       | 2,155    | 1,021 msg/sec | Hospital system daily volume |
+| Large        | 7,605    | 1,988 msg/sec | Major medical center daily volume |
+| Extra Large  | 38,005   | 3,188 msg/sec | Enterprise demo volume |
 
 *These dataset sizes are for quick demonstrations and are much smaller than typical production workloads.*
 
